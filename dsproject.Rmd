@@ -1,0 +1,508 @@
+---
+title: "Data Science Project-Packages (Plotly)"
+author: "Jasmine Dogu, Lindsey Norberg, Brian Wimmer"
+date: "10/3/2020"
+output:
+  html_document:
+    toc: TRUE
+    theme: cosmo
+    toc_float: TRUE
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(plotly)
+library(ggplot2)
+library(knitr)
+```
+
+## About Plotly {.tabset}
+
+This graphing library is free and open source. It allows the user to make many different types of interactive, publication-quality plots. Some of the many things we can create with Plotly are line plots, scatter plots, area charts, bar charts, error bars, box plots, histograms, heatmaps, subplots, multiple-axes, and 3D Charts. One benefit of Plotly is that it allows the user to hover their mouse over the plots and see data points, zoom in or out of specific areas, or capture stills. It also allows the user to click on different buttons, or use other interactive tools, to see different data points and analyzations. 
+
+```plotly``` is a product of the tech company "Plotly" started by Alex Johnson, Jack Parmer, Chris Parmer, and Matthew Sundquist. The package is written in JavaScript, but can be used in other languages syntaxes such as R and Python. 
+
+### Why use Plotly? 
+Data visualization acts as an accentuating yet critical component of data science. Although quantitative analysis and technical knowledge drive the extraction of insight from data, perhaps what acts as a just as equal, if not more, counterpart is the presentation of findings. Data visualization perfectly accentuates data analytics, as it allows for data scientists to visually present and communicate important findings within the data in a digestible manner to key stakeholders. Traditional data visualization packages, such as ggplot2 or plotting functions within native R, provide means and methods of accomplishing this. However, ```plotly's``` value proposition is the ability to expound upon tradition two dimensional plotting techniques by offering interactivity and dimensionality that allows both data scientists and key stakeholders alike to extract more complex and meaningful insights, beyond what is capable in 2d graphics.
+
+### How to Install Plotly
+There are two ways of installing Plotly. One of the ways is by downloading from CRAN with the command ```install.packages("plotly")```. However, this may not be the most updated version so the other method of installing the library is suggested. This method is by downloading it from Github with the command ```devtools::install_github("ropensci/plotly")``` . This will ensure the latest version is downloaded. 
+
+### How to Load the Plotly Package
+In order to use the Plotly package, the user must first load it in using the command ```library(plotly)```.
+
+## Important Info About Plotly {.tabset}
+For an in-depth overview of the plotly package, click [here](https://cran.r-project.org/web/packages/plotly/index.html).
+
+### Version History
+```{r, echo = FALSE}
+table <- data.frame('Current Version' = '4.9.2.1')
+kable(table)
+```
+
+### Usage
+```plotly``` is a data visualization package that can be used to make the following types of graphics: 
+<br> - line plots 
+<br> - scatter plots 
+<br> - area charts 
+<br> - bar charts 
+<br> - error bars 
+<br> - box plots 
+<br> - histograms 
+<br> - heatmaps 
+<br> - subplots 
+<br> - multiple-axes 
+<br> - 3D Charts
+
+### Dependencies 
+- ```R (≥ 3.2.0)``` - R version 3.2.0 or later
+- ```ggplot2 (≥ 3.0.0)``` - ggplot2 version 3.0.0 or later
+
+### Imports (Exogenous Package Use)
+<br> - tools
+<br> - scales 
+<br> - httr 
+<br> - jsonlite (≥ 1.6)
+<br> - magrittr 
+<br> - digest 
+<br> - viridisLite 
+<br> - base64enc 
+<br> - htmltools (≥ 0.3.6) 
+<br> - htmlwidgets (≥ 1.3) 
+<br> - tidyr, hexbin 
+<br> - RColorBrewer 
+<br> - dplyr 
+<br> - tibble 
+<br> - lazyeval (≥ 0.2.0) 
+<br> - rlang 
+<br> - crosstalk 
+<br> - purrr 
+<br> - data.table 
+<br> - promises
+
+## About the Data Set
+The World Happiness Report is a survey of the state of global happiness. This survey ranks 155 countries depending on their level of happiness, and analyzes the factors that leads to a happier country/citizens. The happiness scores and rankings are determined form the Gallup World Poll. There are six factors that the happiness score estimates: economic production, social support, life expectancy, freedom, absence of corruption, and generosity. These are believed to all contribute, in some manner, to the increase or decrease of global happiness. Our aim, through using this dataset, is to gain a better understanding of the factors that lead to a happier country, while also showing the different capabilities that the ```Plotly``` package allows. 
+The variables used can be further described:
+<br> - Region: separated by continent and location
+<br> - Happiness Rank: ranks each country 1-155, based on Happiness Score
+<br> - Happiness Score: "How would you rate your happiness on a scale from 1-10?"
+<br> - Standard Error: SE from the Happiness Score
+<br> - Economy (GDP per capita): a calculation of the extent to which GDP effects the Happiness Score
+<br> - Family: a calculation of the extent to which Family effects the Happiness Score
+<br> - Health (Life Expectancy): a calculation of the extent to which modern life expectancy effects the Happiness Score
+<br> - Freedom: a calculation of the extent to which freedom effects the Happiness Score
+<br> - Trust (Government Corruption): a calculation of the extent to which the perception of government corruption effects the Happiness Score
+<br> - Generosity: a calculation of the extent to which generosity effects the Happiness Score
+*Adding up the numbers from Economy, Family, Health, Freedom, Trust, and Generosity gives us the overall Happiness Score
+
+For an in-depth overview of the dataset used above, click [here](https://www.kaggle.com/unsdsn/world-happiness).
+
+## Examples of plots that can be made with plotly 
+
+```{r, include=FALSE}
+#Reading the data in
+fifteen <- read.csv('2015.csv')
+sixteen<-read.csv('2016.csv')
+seventeen<- read.csv('2017.csv')
+eighteen<- read.csv('2018.csv')
+nineteen<- read.csv('2019.csv')
+#Loading libraries
+library(dplyr)
+library(plotly)
+```
+
+
+```{r,include=FALSE}
+#Looking at the datasets
+head(fifteen)
+head(sixteen)
+head(seventeen)
+head(eighteen)
+head(nineteen)
+```
+
+## Scatterplots  {.tabset}
+Plotly allows the user to make many different types of scatterplots. These can range from the basic 2D scatterplots analyzing two variables, to more complex 3D structures that look at the relationship between three variables. Below are some examples of the many types of scatterplots that can be produced with Plotly.
+
+### Basic 2D Scatter Plots
+Plotly makes it extremely easy to create simple 2D scatterplots to see relationships between two 
+variables.
+```{r, warning=FALSE,message=FALSE}
+fig <- plot_ly(data = nineteen, x = ~Healthy.life.expectancy, y = ~Overall.rank)
+fig <- fig %>% layout(
+         xaxis = list(title = 'Healthy Life Expectancy'),
+         yaxis = list(title = 'Overall Rank'))
+
+fig
+```
+This scatterplot shows that as Healthy Life Expectancy increases, the overall rank decreases. This means that countries with citizens who have higher Healthy Life Expectancies are also more likely to be the countries with a better ranking (lower, in this case, is better). 
+
+### Styled 2D Scatter Plots 
+```{r, warning=FALSE,message=FALSE}
+fig <- plot_ly(data = nineteen, x = ~Healthy.life.expectancy, y = ~Overall.rank,
+               marker = list(size = 10,
+                             color = '#BFDFFC',
+                             line = list(color = '#067BEA',
+                                         width = 2)))
+fig <- fig %>% layout(title = 'Styled Scatter',
+         yaxis = list(zeroline = FALSE),
+         xaxis = list(zeroline = FALSE))
+fig <- fig %>% layout(
+         xaxis = list(title = 'Healthy Life Expectancy'),
+         yaxis = list(title = 'Overall Rank'))
+
+fig
+```
+Here, we have the same relationship being analyzed as we did in the Basic 2D Scatterplot, but we have styled the scatter plot through manipulations to the data markers.   
+
+### 2D Scatterplot with Quantitative Colorscales
+Plotly also allows the user to have a colorscale dependent on a specific grouping. For Quantitative or Continuous groupings, the legend will be a scale that fades from one color to another to show varying levels of the grouping.
+```{r, warning=FALSE, messages=FALSE}
+fig <- plot_ly(nineteen, x = ~Freedom.to.make.life.choices, y = ~Social.support, text = ~Country.or.region, type = 'scatter', mode = 'markers', color = ~Score, colors = 'Blues',
+        marker = list(size = ~Score, opacity = 0.7,sizemode = 'diameter'))
+fig <- fig %>% layout(
+         xaxis = list(title = 'Freedom to Make Life Choices'),
+         yaxis = list(title = 'Social Support'))
+
+fig
+```
+Here, we have an example of a qualitative colorscale where the scatterplot is broken down by the overall scores. The darker colors signify a higher overall score, and the lighter colors signify a lower overall score. We can see that the countries that have the highest freedom to make life choices and the highest social support are also the highest in their scores. Some of these countries are Iceland, Denmark, Finland, Australia, and Canada. 
+
+### 2D Scatterplot with Qualitative Colorscales
+As discussed on the previous example, Plotly allows the user to have a colorscale dependent on a specific grouping. For Qualitative groupings, the legend will separate the colors based on the specific groupings. 
+```{r, message=FALSE, warning=FALSE}
+fig <- plot_ly(data = nineteen, x = ~Healthy.life.expectancy, y = ~Score, color = ~Country.or.region , colors="Blues")
+fig <- fig %>% layout(
+         xaxis = list(title = 'Healthy Life Expectancy'),
+         yaxis = list(title = 'Score'))
+fig
+```
+In the example above, we have grouped the points by Country/Region. We can see that each grouping (in this case - country) was assigned a different shade of blue. As a result, we can analyze the Score vs Healthy Life Expectancy broken down by the Country. 
+
+### 3D Scatter Plots
+With Plotly, the user can also create 3D scatter plots to analyze three different variables and their relationships. 
+```{r, warning=FALSE, messages=FALSE}
+fig <- plot_ly(nineteen, x = ~Healthy.life.expectancy, y = ~Perceptions.of.corruption,
+               z = ~Social.support, color = ~Overall.rank, colors = c('#067BEA', '#464D52'))
+fig <- fig %>% add_markers()
+fig <- fig %>% layout(scene = list(xaxis = list(title = 'Healthy Life Expectancy'),
+                     yaxis = list(title = 'Perceptions of Corruption'),
+                     zaxis = list(title = 'Social Support')))
+fig
+```
+This scatter plot shows the relationship between Perceptions of Corruption, Generosity, and Overall Rank. We can see that the countries with the best overall rank (aka lowest rank) are those with high social support, low perceptions of corruption, and high healthy life expectancy. 
+
+## Bar Graphs  {.tabset}
+
+### Basic Bar Graph with Direct Labels
+This shows a bar chart for the 2019 data set. It analyzes the Country/Region and the Score associated with that location.
+```{r, warning=FALSE}
+#Subsetting the data to only show the top 10 countries with the highest scores
+nineteen<- nineteen %>%
+    group_by(Score) %>%
+    top_n(10, Score) %>%
+    head(10)
+
+x<- as.factor(nineteen$Country.or.region)
+y<- as.numeric(nineteen$Score)
+data <- data.frame(x, y)
+fig1 <- plot_ly(data, x = ~x, y = ~y, type = 'bar',
+             text = y, textposition = 'auto',
+             marker = list(color = 'rgb(158,202,225)',
+                           line = list(color = 'rgb(8,48,107)', width = 1.5)))
+fig1 <- fig1 %>% layout(title = "Top Ten Happiness Scores Based on Country (for the year 2019)",
+         xaxis = list(title = "Country/Region"),
+         yaxis = list(title = "Score"))
+fig1
+```
+
+### Grouped Bar Graph
+This shows a grouped bar chart for the 2019 data set. This shows a bar graph looking at the top 10 countries with the highest scores. The graph shows their healthy life expectancy, social support, and GDP per capita counts.
+```{r, warning=FALSE}
+#Subsetting the data to only show the top 10 countries with the highest scores
+nineteen<- nineteen %>%
+    group_by(Score) %>%
+    top_n(10, Score) %>%
+    head(10)
+x<- as.factor(nineteen$Country.or.region)
+y<- as.numeric(nineteen$Score)
+data <- data.frame(nineteen, x, y)
+fig <- plot_ly(nineteen, x = ~Country.or.region, y = ~Healthy.life.expectancy, type = 'bar', 
+            name = 'Healthy Life Expectancy', text = y, textposition = 'auto',
+             marker = list(color = '#065198',
+                           line = list(color = '#0F242A', width = 1.5)))
+fig <- fig %>% add_trace(y = ~Social.support, name = 'Social Support',
+            name = 'Score', text = y, textposition = 'auto',
+             marker = list(color = '#CCE4FC',
+                           line = list(color = '#0F242A', width = 1.5)))
+fig <- fig %>% add_trace(y = ~GDP.per.capita, name = 'GDP per Capita',
+            name = 'Score', text = y, textposition = 'auto',
+             marker = list(color = '#32A6C6',
+                           line = list(color = '#0F242A', width = 1.5)))
+fig <- fig %>% layout(title = "Analyzing the Top 10 Countries (for the year 2019)",
+         xaxis = list(title = "Country/Region"),
+         yaxis = list(title = "Count"))
+fig
+```
+As we can see above, of the ten groups, Iceland has the most Social Support, Norway has the most GDP per Capita, and Switzerland has the most Healthy Life Expectancy values.
+
+### Putting Two (or more) Graphs Side-By-Side
+In order to see relationships or analyze data more clearly, the user can use Plotly to place two (or more) plots side-by-side. 
+```{r, warning=FALSE}
+#Subsetting the data to only show the top 10 countries with the highest scores
+nineteen<- nineteen %>%
+    group_by(Score) %>%
+    top_n(10, Score) %>%
+    head(10)
+    
+x<- as.factor(nineteen$Country.or.region)
+y<- as.numeric(nineteen$Score)
+data <- data.frame(x, y)
+fig1 <- plot_ly(data, x = ~x, y = ~y, type = 'bar',
+             name = '2019',
+             text = y, textposition = 'auto',
+             marker = list(color = '#065198',
+                           line = list(color = '#0F242A', width = 1.5)))
+fig1 <- fig1 %>% layout(title = "Top Ten Happiness Scores Based on Country (for the year 2019)",
+         xaxis = list(title = "Country/Region"),
+         yaxis = list(title = "Score"))
+#Subsetting the data to only show the top 10 countries with the highest scores
+eighteen<- eighteen %>%
+    group_by(Score) %>%
+    top_n(10, Score) %>%
+    head(10)
+    
+x2<- as.factor(eighteen$Country.or.region)
+y2<- as.numeric(eighteen$Score)
+data2 <- data.frame(x2, y2)
+fig2 <- plot_ly(data, x = ~x2, y = ~y2, type = 'bar',
+             name = '2018',
+             text = y2, textposition = 'auto',
+             marker = list(color = '#CCE4FC',
+                           line = list(color = '#0F242A', width = 1.5)))
+fig2 <- fig2 %>% layout(title = "Top Ten Happiness Scores Based on Country (for the year 2018)",
+         xaxis = list(title = "Country/Region"),
+         yaxis = list(title = "Score"))
+subplot(fig2,fig1) %>% layout(title ="Top Ten Happiness Scores Based on Country")
+```
+Here, we are using both the 2018 and 2019 datasets. We have made bar graphs to analyze general trends of their overall score based on the country/region. We can see that both years have similar results; however, in 2018, Norway was the country with the highest Happiness Score, and in 2019, Finland was the country with the highest Happiness Score.
+
+### Bar Graphs Using a Slider
+```{r, warning=FALSE,message=FALSE}
+library(dplyr)
+library(plotly)
+y2015 <- read.csv('2015.csv')
+y2015 <- y2015 %>%
+  mutate(year = rep('2015', nrow(y2015)))
+y2016 <- read.csv('2016.csv')
+y2016 <- y2016 %>%
+  mutate(year = rep('2016', nrow(y2016)))
+y2017 <- read.csv('2017.csv')
+y2017 <- y2017 %>%
+  mutate(year = rep('2017', nrow(y2017)))
+
+
+all_year <- rbind(y2015[ ,c('Country','Happiness.Score','year')], y2016[ ,c('Country','Happiness.Score','year')], y2017[ ,c('Country','Happiness.Score','year')])
+
+all_year$Country <- as.factor(all_year$Country)
+fig <- all_year %>%
+  plot_ly(
+    x = ~Country,
+    y = ~Happiness.Score,
+    frame = ~year,
+    type = 'bar',
+    mode = 'markers',
+    showlegend = F) %>% animation_opts(frame = 1000, 
+                                       easing = 'linear', 
+                                       redraw = F)
+
+fig
+
+```
+
+
+## Line Plots {.tabset}
+
+### Basic Line Plot
+Plotly allows the user to create simple line plots to view the relationship between two variables.
+```{r, warning=FALSE, messages=FALSE}
+nineteen<- read.csv('2019.csv')
+fig <- plot_ly(nineteen, x = ~Overall.rank, y = ~Healthy.life.expectancy, type = 'scatter', mode = 'lines')
+fig <- fig %>% layout(
+         xaxis = list(title = 'Overall Rank'),
+         yaxis = list(title = 'Healthy Life Expectancy'))
+
+fig
+```
+This line plot allows us to see the general pattern that with overall rank increasing (getting worse), there's a general pattern with the healthy life expectancy decreasing. 
+
+### Line Plot Mode
+Plotly also allows the user to change the mode of the lines. 
+```{r, warning=FALSE, messages=FALSE}
+nineteen<- read.csv('2019.csv')
+fig <- plot_ly(nineteen, x = ~Overall.rank, y = ~GDP.per.capita, name = 'GDP Per Capita', type = 'scatter', mode = 'lines') 
+fig <- fig %>% add_trace(y = ~Healthy.life.expectancy, name = 'Healthy Life Expectancy', mode = 'lines+markers') 
+fig <- fig %>% add_trace(y = ~Social.support, name = 'Social Support', mode = 'markers')
+fig <- fig %>% layout(
+         xaxis = list(title = 'Overall Rank'),
+         yaxis = list(title = 'Different Variables (GDP, HLE, SS)'))
+
+fig
+```
+For example, in this example, we can see the modes are different for the different y variables that we are analyzing. As the overall rank increases, we can see it's relationship with GDP Per Capita (straight blue line), Healthy Life Expectancy (orange straight line with dots), and Social Support (green dots). By using ```mode= ' '```, the user can specify what they want their line plots to look like. 
+
+### Line Graph with Restyle Button
+With Plotly, the user can add a "restyle" method that can then modify the data/data attributes of the graph.
+```{r}
+fig <- plot_ly(nineteen, x = ~Score)
+fig <- fig %>% add_lines(y = ~ Freedom.to.make.life.choices)
+fig <- fig %>% layout(
+  title = "Freedom to Make Life Choices vs Score",
+  xaxis = list(domain = c(0.1, 1)),
+  yaxis = list(title = "Freedom to Make Life Choices"),
+  updatemenus = list(
+    list(
+      type = "buttons",
+      y = 0.8,
+      buttons = list(
+        list(method = "restyle",
+             args = list("line.color", "blue"),
+             label = "Blue"),
+        list(method = "restyle",
+             args = list("line.color", "red"),
+             label = "Red")))
+  ))
+fig
+```
+Above, we have an example of how the user can modify the color of the Line Plot depending on the button they choose. The 'Blue' button will show the graph in a blue color, whereas the 'Red' button will show the graph in a red color. Here, we can see that as the happiness score of countries generally go up, their freedom to make life choices also goes up; there is a direct relationship.
+
+## Choropleth Maps in R {.tabset}
+
+### Basic Choropleth Map
+```{r, warning=FALSE, messages=FALSE}
+#In order to make a choropleth map using plotly, we need to convert all 
+#the country names that we have to their associated country abbreviation
+#To convert the country names to their codes, load the "countrycode" package
+library(countrycode)
+nineteen<- read.csv('2019.csv')
+nineteen$Country.or.region <- as.factor(nineteen$Country.or.region)
+nineteen$Country.or.region<- countrycode(nineteen$Country.or.region, 'country.name', 'iso3c')
+fig <- plot_ly(nineteen, type='choropleth', locations=nineteen$Country.or.region, z=nineteen$Score, text=nineteen$GDP.per.capita, colorscale="YlGnBu",reversescale = T)
+fig <- fig %>% layout(
+    title = "2019 Happiness Report Shown by GDP per Capita"
+)
+fig <- fig %>% colorbar(title = "GDP per Capita")
+fig
+```
+This is an example of a choropleth map, and the user can hover over the countries to see the country name as well as the GDP per capita value for that place. 
+
+### Mapping with Aggregations
+Plotly--in addition to a library called ```listviewer``` which is designed to help see, understand, and maybe even modify your R lists--allows the user to make choropleth maps with a dropdown option of the operation they would like to perform to the variable they are exploring.
+```{r}
+#We must import 'listviewer' in order to make a map with aggregations
+library(listviewer)
+eighteen<- read.csv('2018.csv')
+nineteen<- read.csv('2019.csv')
+all_years<- rbind(nineteen,eighteen)
+s <- schema()
+agg <- s$transforms$aggregate$attributes$aggregations$items$aggregation$func$values
+l = list()
+for (i in 1:length(agg)) {
+  ll = list(method = "restyle",
+            args = list('transforms[0].aggregations[0].func', agg[i]),
+            label = agg[i]) 
+  l[[i]] = ll
+}
+fig <- all_years %>%
+  plot_ly(
+    type = 'choropleth',
+    locationmode = 'country names',
+    locations = ~Country.or.region,
+    z = ~GDP.per.capita,
+    autocolorscale = F,
+    reversescale = T,
+    colorscale = 'YlGnBu', 
+    transforms = list(list(
+      type = 'aggregate',
+      groups = ~Country.or.region,
+      aggregations = list(
+        list(target = 'z', func = 'sum', enabled = T)
+      )
+    ))
+  )
+fig <- fig %>% layout(
+    title = "<b>World Happiness (2018-2019)</b>",
+    geo = list(
+      showframe = F,
+      showcoastlines = F
+    ),
+    updatemenus = list(
+      list(
+        x = 0.25,
+        y = 1.04,
+        xref = 'paper',
+        yref = 'paper',
+        yanchor = 'top',
+        buttons = l
+      )
+    )
+  )
+fig
+```
+In this example above, we are looking at the relationship of GDP per capita in the years 2018-2019. You can see, that depending on the different operations (max, min, std dev, etc), the values on the choropleth map change accordingly. The user can also hover over the map to see the country name and specific value.
+
+## Not a fan of Plotly? Here are some alternatives! {.tabset}
+
+### ggplot2
+
+![](ggplot2image.png){width=17%}
+<br> The ```ggplot2``` package was created by Hadley Wickham and offers yet another powerful way of creating complex but elegant visualizations and graphics. Plotly and ggplot2 have a lot of differences in their syntax, customization, and documentation. 
+
+To install the ```ggplot2``` package and ensure you properly load it in, use the following commands:
+<br> 1) ```install.packages("ggplot2")```
+<br> 2) ```library(ggplot2)```
+
+
+### leaflet
+![](leaflet.png){width=20%}
+
+Leaflet was developed by Vladimir Agafonkin in 2011 in JavaScript. Although a data visualization tool, leaflet specializes in creating high quality interactive maps. Leaflet is a great tool to add map elements such as markers and layers onto of GeoJSON files.
+
+To install the ```leaflet``` package and ensure you properly load it in, use the following commands:
+<br> 1) ```install.packages("leaflet")```
+<br> 2) ```library(leaflet)```
+
+
+## Plotly in the Real World {.tabset}
+Plotly is used around the globe, from companies to schools to media sites and more. The company, Plotly Technologies, has also seen some major advancements lately. Here are a few things going on with Plotly in the real world:
+
+### Plotly Funding and Users
+A few years ago, Plotly closed a round of $5.5 million in funding as the popularity of the platform has been on the rise. As of 2015, the platform had well over 200,000 users - which included some well-known names. The Boston Globe, The Guardian, Google, NASA, and the US Air Force were some of the early adopters to use Plotly.
+More information can be found by clicking [here](https://betakit.com/plotly-raises-5-5-million-series-a-from-mhs-capital-real-ventures-others/).
+<center>![](Plotly2.jpeg){width=30%}</center>
+
+### Plotly and Artificial Intelligence Applications
+In January, Plotly received an additional $1.7 million in funding from Scale AI, which is a leading AI investing and innovation hub in Canada. The money will be used for the development and advancement of Plotly's Dash Software, a platform the builds interactive analytic applications. Dash allows users to create and operate AI and machine learning systems within R and Python.
+More information can be found by clicking [here](https://www.globenewswire.com/news-release/2020/01/14/1970313/0/en/Scale-AI-awards-1-7M-to-Plotly-to-speed-innovation-in-supply-chain-AI-technology.html).
+<br>
+<center>![](Plotly1.png){width=18%}</center>
+
+### Plotly as a Best Place to Work
+Back in February, Canadian SME National Business Awards named Plotly Technologies as one of the top places to work in the country, and nominated Plotly as Business of the Year. Plotly has major professional development opportunities within the company, as well as an industry-leading benefits package and highly interactive working environment.
+More information can be found by clicking [here](https://www.globenewswire.com/news-release/2020/02/04/1979521/0/en/Plotly-Named-Best-Place-to-Work.html).
+<center> ![](Plotly3.png){width=30%}</center>
+
+## Final Thoughts and Opinions on Plotly
+Overall, plotly has ample upsides for usage. With the package, we were able to effectively create intricate and complex graphics that allow users to extract even deeper insights. Although, unlike other data visualization packages, plotly has interactive features; ones that we found to be particularly important and useful were the ability to hover over observations to see exact numerical values, or zoom in and out of graphs. In addition, from a holistic standpoint, it is also advantageous that plotly can be used in other language syntaxes such as JavaScript, Python, and Mathlab, making it versatile across potential platforms for data science.
+
+However, despite these value adds, we found that a lot of the basic functions of plotly could also be achieved in ggplot2, which is arguably easier to use. We can still achieve high quality graphics with ggplot2, but plotly simply adds a new dimension that may not always be worth the marginal effort of actually taking the time and effort to execute it. In addition, plotly requires a lot of tuning in order to get it the exact way that you want it. Arguably, we see this in ggplot2, but since there is simply just a larger number of capabilities in plotly, there are more arguments to consider and establish.
+
+Plotly serves as a great data visualization tool for data scientists to use but can easily be replaced with basic functions of the ggplot2 package.
+
+## GitHub Repo {.tabset}
+To view or download the files, access the Github Repo [here](https://github.com/jasminedogu/DS4001-Project1).
